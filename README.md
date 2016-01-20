@@ -2,6 +2,16 @@
 
 Simple retry mechanism for Java Callables.
 
+## Maven
+
+```
+<dependency>
+  <groupId>com.arjie.groundhog</groupId>
+  <artifactId>groundhog</artifactId>
+  <version>0.1.0</version>
+</dependency>
+```
+
 ## Usage
 
 Add the JAR to your classpath and then use with 
