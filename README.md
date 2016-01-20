@@ -16,4 +16,4 @@ Simple retry mechanism for Java Callables.
 
 Add the JAR to your classpath and then use with 
 
-    Retriers.fixedTriesFixedDelayRetrier(yourCallable, someNumTries, waitTimeInMilliseconds)
+    Retriers.fixedTriesFixedDelay(yourCallable, someNumTries, waitTimeInMilliseconds)
