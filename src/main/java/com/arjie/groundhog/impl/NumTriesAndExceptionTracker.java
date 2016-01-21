@@ -5,7 +5,7 @@ import com.arjie.groundhog.TryState;
 /**
  * Tracks the number of tries made and the most recent exception thrown.
  */
-public class NumTriesAndExceptionTracker implements TryState {
+public class NumTriesAndExceptionTracker implements TryState, NumTriesState {
 
   long numTries;
   Exception lastException = null;

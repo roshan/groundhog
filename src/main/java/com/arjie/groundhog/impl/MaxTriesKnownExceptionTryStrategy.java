@@ -4,7 +4,7 @@ import com.arjie.groundhog.TryStrategy;
 
 import java.util.Collection;
 
-class MaxTriesKnownExceptionTryStrategy<S extends NumTriesAndExceptionTracker> implements TryStrategy<S> {
+public class MaxTriesKnownExceptionTryStrategy<S extends NumTriesAndExceptionTracker> implements TryStrategy<S> {
 
   private long maxTries;
   private Collection<Class<? extends Exception>> exceptionsToRetry;
