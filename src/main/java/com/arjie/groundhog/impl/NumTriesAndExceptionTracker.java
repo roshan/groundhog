@@ -7,8 +7,8 @@ import com.arjie.groundhog.TryState;
  */
 public class NumTriesAndExceptionTracker implements TryState, NumTriesState {
 
-  long numTries;
-  Exception lastException = null;
+  private long numTries;
+  private Exception lastException = null;
 
   public NumTriesAndExceptionTracker() {
     numTries = 0;

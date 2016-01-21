@@ -1,7 +1,7 @@
 package com.arjie.groundhog;
 
 public class RetryResult<V, S> {
-  private S terminalState;
+  private final S terminalState;
   private final V val;
 
   public RetryResult(S terminalState, V val) {

@@ -4,12 +4,12 @@ import com.arjie.groundhog.impl.ExponentialDelayStrategy;
 import com.arjie.groundhog.impl.MaxTriesKnownExceptionTryStrategy;
 import com.arjie.groundhog.impl.NumTriesAndExceptionTracker;
 import com.arjie.groundhog.impl.FixedTriesFixedDelayRetrier;
-import com.sun.org.apache.bcel.internal.generic.RET;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.Callable;
 
+@SuppressWarnings("unused")
 public class Retriers {
   public static <V> Retrier<V, NumTriesAndExceptionTracker> fixedTriesFixedDelay(Callable<V> c, int maxTries, long waitMillisBetweenTries) {
     return new FixedTriesFixedDelayRetrier<>(c, maxTries, waitMillisBetweenTries, Collections.<Class<? extends Exception>>singletonList(Exception.class));

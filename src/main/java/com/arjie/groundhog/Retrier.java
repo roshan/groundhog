@@ -14,8 +14,8 @@ public class Retrier<V, S extends TryState> implements Callable<RetryResult<V, S
 
   private final Callable<V> c;
   private final TryStrategy<S> tryStrategy;
-  private DelayStrategy<S> delayStrategy;
-  private TryState.Factory<S> initialStateFactory;
+  private final DelayStrategy<S> delayStrategy;
+  private final TryState.Factory<S> initialStateFactory;
 
 
   public Retrier(Callable<V> c, TryStrategy<S> tryStrategy, DelayStrategy<S> delayStrategy, TryState.Factory<S> initialStateFactory) {

@@ -11,8 +11,8 @@ import com.arjie.groundhog.TryState;
  */
 public class ExponentialDelayStrategy<S extends NumTriesState & TryState> implements DelayStrategy<S> {
 
-  private long base;
-  private long coefficient;
+  private final long base;
+  private final long coefficient;
 
   public ExponentialDelayStrategy(long base) {
     this(base, 1);

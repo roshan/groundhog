@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.concurrent.Callable;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 @SuppressWarnings("unchecked") // only warnings are on Mockito

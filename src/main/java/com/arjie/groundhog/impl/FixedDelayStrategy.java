@@ -5,7 +5,7 @@ import com.arjie.groundhog.TryState;
 
 public class FixedDelayStrategy<S extends TryState> implements DelayStrategy<S> {
 
-  private long millisToDelay;
+  private final long millisToDelay;
 
   public FixedDelayStrategy(long millisToDelay) {
     this.millisToDelay = millisToDelay;

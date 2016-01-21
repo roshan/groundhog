@@ -6,8 +6,8 @@ import java.util.Collection;
 
 public class MaxTriesKnownExceptionTryStrategy<S extends NumTriesAndExceptionTracker> implements TryStrategy<S> {
 
-  private long maxTries;
-  private Collection<Class<? extends Exception>> exceptionsToRetry;
+  private final long maxTries;
+  private final Collection<Class<? extends Exception>> exceptionsToRetry;
 
   public MaxTriesKnownExceptionTryStrategy(long maxTries, Collection<Class<? extends Exception>> exceptionsToRetry) {
     this.maxTries = maxTries;
@@ -22,11 +22,8 @@ public class MaxTriesKnownExceptionTryStrategy<S extends NumTriesAndExceptionTra
     }
 
     Exception exception = state.getLastException();
-    if ((exception == null) || (isExceptionCatchable(exception))) {
-      return true;
-    }
+    return (exception == null) || (isExceptionCatchable(exception));
 
-    return false;
   }
 
   private boolean isExceptionCatchable(Exception exception) {
