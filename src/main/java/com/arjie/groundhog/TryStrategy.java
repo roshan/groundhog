@@ -11,10 +11,4 @@ public interface TryStrategy<S extends TryState> {
    * @return true if we should make an attempt, false otherwise.
    */
   boolean shouldTry(S state);
-
-  /**
-   * @param state The state to make a decision on.
-   * @return the number of milliseconds to wait before seeing if we should make another attempt and then doing so.
-   */
-  long getMillisToDelayRetry(S state);
 }

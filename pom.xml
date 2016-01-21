@@ -4,7 +4,7 @@
   <groupId>com.arjie.groundhog</groupId>
   <artifactId>groundhog</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.0</version>
+  <version>0.2-SNAPSHOT</version>
 
   <name>Groundhog</name>
   <description>A simple retry mechanism for Java Callables</description>

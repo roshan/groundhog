@@ -4,15 +4,13 @@ import com.arjie.groundhog.TryStrategy;
 
 import java.util.Collection;
 
-class FixedDelayMaxTriesKnownExceptionTryStrategy<S extends NumTriesAndExceptionTracker> implements TryStrategy<S> {
+class MaxTriesKnownExceptionTryStrategy<S extends NumTriesAndExceptionTracker> implements TryStrategy<S> {
 
   private long maxTries;
-  private long delayInMillis;
   private Collection<Class<? extends Exception>> exceptionsToRetry;
 
-  public FixedDelayMaxTriesKnownExceptionTryStrategy(long maxTries, long delayInMillis, Collection<Class<? extends Exception>> exceptionsToRetry) {
+  public MaxTriesKnownExceptionTryStrategy(long maxTries, Collection<Class<? extends Exception>> exceptionsToRetry) {
     this.maxTries = maxTries;
-    this.delayInMillis = delayInMillis;
     this.exceptionsToRetry = exceptionsToRetry;
   }
 
@@ -38,10 +36,5 @@ class FixedDelayMaxTriesKnownExceptionTryStrategy<S extends NumTriesAndException
       }
     }
     return false;
-  }
-
-  @Override
-  public long getMillisToDelayRetry(S state) {
-    return delayInMillis;
   }
 }

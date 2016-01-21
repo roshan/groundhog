@@ -7,6 +7,6 @@ import java.util.concurrent.Callable;
 
 public class FixedTriesFixedDelayRetrier<V> extends Retrier<V, NumTriesAndExceptionTracker> {
   public FixedTriesFixedDelayRetrier(Callable<V> c, int maxTries, long waitMillisBetweenTries, Collection<Class<? extends Exception>> exceptionsToRetryOn) {
-    super(c, new FixedDelayMaxTriesKnownExceptionTryStrategy<>(maxTries, waitMillisBetweenTries, exceptionsToRetryOn), new NumTriesAndExceptionTracker.Factory());
+    super(c, new MaxTriesKnownExceptionTryStrategy<>(maxTries, exceptionsToRetryOn), new FixedDelayStrategy<NumTriesAndExceptionTracker>(waitMillisBetweenTries), new NumTriesAndExceptionTracker.Factory());
   }
 }

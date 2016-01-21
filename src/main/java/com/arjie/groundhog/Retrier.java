@@ -14,12 +14,14 @@ public class Retrier<V, S extends TryState> implements Callable<RetryResult<V, S
 
   private final Callable<V> c;
   private final TryStrategy<S> tryStrategy;
+  private DelayStrategy<S> delayStrategy;
   private TryState.Factory<S> initialStateFactory;
 
 
-  public Retrier(Callable<V> c, TryStrategy<S> tryStrategy, TryState.Factory<S> initialStateFactory) {
+  public Retrier(Callable<V> c, TryStrategy<S> tryStrategy, DelayStrategy<S> delayStrategy, TryState.Factory<S> initialStateFactory) {
     this.c = c;
     this.tryStrategy = tryStrategy;
+    this.delayStrategy = delayStrategy;
     this.initialStateFactory = initialStateFactory;
   }
 
@@ -52,7 +54,7 @@ public class Retrier<V, S extends TryState> implements Callable<RetryResult<V, S
 
         if (tryStrategy.shouldTry(state)) {
           try {
-            Thread.sleep(tryStrategy.getMillisToDelayRetry(state));
+            Thread.sleep(delayStrategy.getMillisToDelayRetry(state));
           } catch (InterruptedException x) {
             exceptions.add(x);
             throw new AccumulatedException("Thread interrupted while delaying retry.", exceptions, state);
