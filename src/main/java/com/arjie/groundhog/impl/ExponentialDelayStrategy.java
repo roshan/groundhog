@@ -4,7 +4,7 @@ import com.arjie.groundhog.DelayStrategy;
 import com.arjie.groundhog.TryState;
 
 /**
- * Delay each execution by {@link this#base} times the previous delay starting with {@link this#coefficient}.
+ * Delay each execution by {@link #base} times the previous delay starting with {@link #coefficient}.
  * Not meant to be exact for large values.
  *
  * @param <S> The type of state, which must have some way to obtain the number of tries.
