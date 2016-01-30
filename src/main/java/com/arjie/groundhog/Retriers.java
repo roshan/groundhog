@@ -44,7 +44,7 @@ public class Retriers {
    *
    * @return A {@link Callable} that works as described above.
    */
-  public static <V> Retrier<V, NumTriesAndExceptionTracker> fixedTriesExponentialBackoff(Callable<V> c, int maxTries, long delayBase, long delayCoefficient, Collection<Class<? extends Exception>> exceptionsToRetryOn) {
+  public static <V> Retrier<V, NumTriesAndExceptionTracker> fixedTriesExponentialBackoff(Callable<V> c, int maxTries, double delayBase, double delayCoefficient, Collection<Class<? extends Exception>> exceptionsToRetryOn) {
     return new Retrier<>(
         c,
         new MaxTriesKnownExceptionTryStrategy<>(maxTries, exceptionsToRetryOn),
