@@ -8,7 +8,7 @@ Simple retry mechanism for Java Callables.
 <dependency>
   <groupId>com.arjie.groundhog</groupId>
   <artifactId>groundhog</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.1</version>
 </dependency>
 ```
 
