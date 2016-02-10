@@ -1,5 +1,6 @@
 package com.arjie.groundhog;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -9,8 +10,15 @@ public class AccumulatedException extends Exception {
   private final List<Exception> exceptions;
   private final TryState terminalFailureState;
 
-  public AccumulatedException(String message, List<Exception> exceptions, TryState terminalFailureState) {
+  public AccumulatedException(String message, TryState terminalFailureState) {
     super(message);
+    this.exceptions = Collections.emptyList();
+    this.terminalFailureState = terminalFailureState;
+  }
+
+  public AccumulatedException(String message, List<Exception> exceptions, Exception lastException, TryState terminalFailureState) {
+    super(message, lastException);
+
     this.exceptions = exceptions;
     this.terminalFailureState = terminalFailureState;
   }
@@ -26,5 +34,19 @@ public class AccumulatedException extends Exception {
    */
   public TryState getTerminalFailureState() {
     return terminalFailureState;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder s = new StringBuilder(String.format("%d exceptions collected.", exceptions.size()));
+
+    for (Exception exception : exceptions) {
+      s.append(String.format("\n\t%s", exception.toString()));
+    }
+
+    s.append("\n");
+    s.append(super.toString());
+
+    return s.toString();
   }
 }

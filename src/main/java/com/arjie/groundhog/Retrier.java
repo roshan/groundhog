@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
  */
 public class Retrier<V, S extends TryState> implements Callable<RetryResult<V, S>> {
 
+  public static final String EXHAUSTED_TRIES_MESSAGE = "Can no longer try.";
   private final Callable<V> c;
   private final TryStrategy<S> tryStrategy;
   private final DelayStrategy<S> delayStrategy;
@@ -40,8 +41,9 @@ public class Retrier<V, S extends TryState> implements Callable<RetryResult<V, S
     while (tryStrategy.shouldTry(state)) {
 
       if (Thread.interrupted()) {
-        exceptions.add(new InterruptedException());
-        throw new AccumulatedException("Thread was interrupted prematurely.", exceptions, state);
+        InterruptedException x = new InterruptedException();
+        exceptions.add(x);
+        throw new AccumulatedException("Thread was interrupted prematurely.", exceptions, x, state);
       }
 
       state.prepareForAttempt();
@@ -57,12 +59,16 @@ public class Retrier<V, S extends TryState> implements Callable<RetryResult<V, S
             Thread.sleep(delayStrategy.getMillisToDelayRetry(state));
           } catch (InterruptedException x) {
             exceptions.add(x);
-            throw new AccumulatedException("Thread interrupted while delaying retry.", exceptions, state);
+            throw new AccumulatedException("Thread interrupted while delaying retry.", exceptions, x, state);
           }
         }
       }
     }
 
-    throw new AccumulatedException("Can no longer try.", exceptions, state);
+    if (exceptions.size() > 0) {
+      throw new AccumulatedException(EXHAUSTED_TRIES_MESSAGE, exceptions, exceptions.get(exceptions.size() - 1), state);
+    } else {
+      throw new AccumulatedException(EXHAUSTED_TRIES_MESSAGE, state);
+    }
   }
 }
