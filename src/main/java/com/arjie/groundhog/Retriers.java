@@ -30,6 +30,13 @@ public class Retriers {
 
   /**
    * Catch all {@link Exception} but otherwise behave like {@link #fixedTriesFixedDelay(Callable, int, long, Collection)}
+   *
+   * @param c The {@link Callable} to retry.
+   * @param maxTries The maximum number of attempts to make.
+   * @param waitMillisBetweenTries The time in milliseconds to wait between attempts.
+   * @param <V> The return value of the {@link Callable}.
+   *
+   * @return A {@link Callable} that works as described above.
    */
   public static <V> Retrier<V, NumTriesAndExceptionTracker> fixedTriesFixedDelay(Callable<V> c, int maxTries, long waitMillisBetweenTries) {
     return fixedTriesFixedDelay(c, maxTries, waitMillisBetweenTries, Collections.<Class<? extends Exception>>singletonList(Exception.class));
@@ -59,6 +66,14 @@ public class Retriers {
 
   /**
    * Catch all {@link Exception} but otherwise behave like {@link #fixedTriesExponentialBackoff(Callable, int, double, long, Collection)}
+   *
+   * @param c The {@link Callable} to retry
+   * @param maxTries The maximum number of attempts to make.
+   * @param delayFactor The value to multiply the previous delay by to get the current delay
+   * @param initialDelayInMillis The initial delay in milliseconds
+   * @param <V> The return value of the {@link Callable}.
+   *
+   * @return A {@link Callable} that works as described above.
    */
   public static <V> Retrier<V, NumTriesAndExceptionTracker> fixedTriesExponentialBackoff(Callable<V> c, int maxTries, double delayFactor, long initialDelayInMillis) {
     return fixedTriesExponentialBackoff(c, maxTries, delayFactor, initialDelayInMillis, Collections.<Class<? extends Exception>>singletonList(Exception.class));
