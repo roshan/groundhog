@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.Callable;
 
+import com.arjie.groundhog.impl.MaxTriesKnownExceptionTryStrategy;
 import com.arjie.groundhog.impl.NumTriesAndExceptionTracker;
 
 @SuppressWarnings("unused")
@@ -22,7 +23,9 @@ public class Retriers {
    * @return A {@link Callable} that works as described above.
    */
   public static <V> Callable<RetryResult<V, NumTriesAndExceptionTracker>> fixedTriesFixedDelay(Callable<V> c, int maxTries, long waitMillisBetweenTries, Collection<Class<? extends Exception>> exceptionsToRetryOn) {
-    return RetryBuilders.fixedTriesFixedDelay(maxTries, waitMillisBetweenTries, exceptionsToRetryOn).buildAnnotatedFor(c);
+    return RetryBuilders.fixedTriesFixedDelay(maxTries, waitMillisBetweenTries)
+        .withTryStrategy(new MaxTriesKnownExceptionTryStrategy<>(maxTries, exceptionsToRetryOn))
+        .buildAnnotatedFor(c);
   }
 
   /**
@@ -53,7 +56,9 @@ public class Retriers {
    * @return A {@link Callable} that works as described above.
    */
   public static <V> Callable<RetryResult<V, NumTriesAndExceptionTracker>> fixedTriesExponentialBackoff(Callable<V> c, int maxTries, double delayFactor, long initialDelayInMillis, Collection<Class<? extends Exception>> exceptionsToRetryOn) {
-    return RetryBuilders.fixedTriesExponentialBackoff(maxTries, delayFactor, initialDelayInMillis, exceptionsToRetryOn).buildAnnotatedFor(c);
+    return RetryBuilders.fixedTriesExponentialBackoff(maxTries, delayFactor, initialDelayInMillis)
+        .withTryStrategy(new MaxTriesKnownExceptionTryStrategy<>(maxTries, exceptionsToRetryOn))
+        .buildAnnotatedFor(c);
   }
 
   /**
