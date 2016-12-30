@@ -71,4 +71,18 @@ public class Retrier<V, S extends TryState> implements Callable<RetryResult<V, S
       throw new AccumulatedException(EXHAUSTED_TRIES_MESSAGE, state);
     }
   }
+
+  static class Pure<V, S> implements Callable<V> {
+
+    private final Callable<RetryResult<V, S>> retryCallable;
+
+    public Pure(Callable<RetryResult<V, S>> retryCallable) {
+      this.retryCallable = retryCallable;
+    }
+
+    @Override
+    public V call() throws Exception {
+      return retryCallable.call().getReturnValue();
+    }
+  }
 }
