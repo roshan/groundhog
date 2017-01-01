@@ -1,8 +1,9 @@
 package com.arjie.groundhog.impl;
 
-import com.arjie.groundhog.TryStrategy;
-
 import java.util.Collection;
+import java.util.Collections;
+
+import com.arjie.groundhog.TryStrategy;
 
 public class MaxTriesKnownExceptionTryStrategy<S extends NumTriesAndExceptionTracker> implements TryStrategy<S> {
 
@@ -12,6 +13,10 @@ public class MaxTriesKnownExceptionTryStrategy<S extends NumTriesAndExceptionTra
   public MaxTriesKnownExceptionTryStrategy(long maxTries, Collection<Class<? extends Exception>> exceptionsToRetry) {
     this.maxTries = maxTries;
     this.exceptionsToRetry = exceptionsToRetry;
+  }
+
+  public MaxTriesKnownExceptionTryStrategy(long maxTries) {
+    this(maxTries, Collections.<Class<? extends Exception>>singletonList(Exception.class));
   }
 
   @Override

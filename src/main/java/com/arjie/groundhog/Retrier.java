@@ -14,12 +14,12 @@ public class Retrier<V, S extends TryState> implements Callable<RetryResult<V, S
 
   public static final String EXHAUSTED_TRIES_MESSAGE = "Can no longer try.";
   private final Callable<V> c;
-  private final TryStrategy<S> tryStrategy;
-  private final DelayStrategy<S> delayStrategy;
-  private final TryState.Factory<S> initialStateFactory;
+  private final TryStrategy<? super S> tryStrategy;
+  private final DelayStrategy<? super S> delayStrategy;
+  private final TryState.Factory<? extends S> initialStateFactory;
 
 
-  public Retrier(Callable<V> c, TryStrategy<S> tryStrategy, DelayStrategy<S> delayStrategy, TryState.Factory<S> initialStateFactory) {
+  public Retrier(Callable<V> c, TryStrategy<? super S> tryStrategy, DelayStrategy<? super S> delayStrategy, TryState.Factory<? extends S> initialStateFactory) {
     this.c = c;
     this.tryStrategy = tryStrategy;
     this.delayStrategy = delayStrategy;
@@ -69,6 +69,20 @@ public class Retrier<V, S extends TryState> implements Callable<RetryResult<V, S
       throw new AccumulatedException(EXHAUSTED_TRIES_MESSAGE, exceptions, exceptions.get(exceptions.size() - 1), state);
     } else {
       throw new AccumulatedException(EXHAUSTED_TRIES_MESSAGE, state);
+    }
+  }
+
+  static class Pure<V, S> implements Callable<V> {
+
+    private final Callable<RetryResult<V, S>> retryCallable;
+
+    public Pure(Callable<RetryResult<V, S>> retryCallable) {
+      this.retryCallable = retryCallable;
+    }
+
+    @Override
+    public V call() throws Exception {
+      return retryCallable.call().getReturnValue();
     }
   }
 }

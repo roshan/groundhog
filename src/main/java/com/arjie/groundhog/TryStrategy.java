@@ -11,4 +11,11 @@ public interface TryStrategy<S extends TryState> {
    * @return true if we should make an attempt, false otherwise.
    */
   boolean shouldTry(S state);
+
+  class Forever<S extends TryState> implements TryStrategy<S> {
+    @Override
+    public boolean shouldTry(S state) {
+      return true;
+    }
+  }
 }
