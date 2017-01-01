@@ -21,7 +21,10 @@ public class Retriers {
    * @param waitMillisBetweenTries The time in milliseconds to wait between attempts.
    * @param exceptionsToRetryOn The exceptions to catch and retry on. Others will be propagated up the chain normally.
    * @return A {@link Callable} that works as described above.
+   *
+   * @deprecated Use {@link RetryBuilders#fixedTriesFixedDelay(int, long)} instead
    */
+  @Deprecated
   public static <V> Callable<RetryResult<V, NumTriesAndExceptionTracker>> fixedTriesFixedDelay(Callable<V> c, int maxTries, long waitMillisBetweenTries, Collection<Class<? extends Exception>> exceptionsToRetryOn) {
     return RetryBuilders.fixedTriesFixedDelay(maxTries, waitMillisBetweenTries)
         .withTryStrategy(new MaxTriesKnownExceptionTryStrategy<>(maxTries, exceptionsToRetryOn))
@@ -37,7 +40,10 @@ public class Retriers {
    * @param maxTries The maximum number of attempts to make.
    * @param waitMillisBetweenTries The time in milliseconds to wait between attempts.
    * @return A {@link Callable} that works as described above.
+   *
+   * @deprecated Use {@link RetryBuilders#fixedTriesFixedDelay(int, long)} instead
    */
+  @Deprecated
   public static <V> Callable<RetryResult<V, NumTriesAndExceptionTracker>> fixedTriesFixedDelay(Callable<V> c, int maxTries, long waitMillisBetweenTries) {
     return fixedTriesFixedDelay(c, maxTries, waitMillisBetweenTries, Collections.<Class<? extends Exception>>singletonList(Exception.class));
   }
@@ -54,7 +60,10 @@ public class Retriers {
    * @param initialDelayInMillis The initial delay in milliseconds
    * @param exceptionsToRetryOn The exceptions to catch and retry on. Others will be propagated up the chain normally.
    * @return A {@link Callable} that works as described above.
+   *
+   * @deprecated Use {@link RetryBuilders#fixedTriesExponentialBackoff(int, double, long)} instead
    */
+  @Deprecated
   public static <V> Callable<RetryResult<V, NumTriesAndExceptionTracker>> fixedTriesExponentialBackoff(Callable<V> c, int maxTries, double delayFactor, long initialDelayInMillis, Collection<Class<? extends Exception>> exceptionsToRetryOn) {
     return RetryBuilders.fixedTriesExponentialBackoff(maxTries, delayFactor, initialDelayInMillis)
         .withTryStrategy(new MaxTriesKnownExceptionTryStrategy<>(maxTries, exceptionsToRetryOn))
@@ -71,7 +80,10 @@ public class Retriers {
    * @param delayFactor The value to multiply the previous delay by to get the current delay
    * @param initialDelayInMillis The initial delay in milliseconds
    * @return A {@link Callable} that works as described above.
+   *
+   * @deprecated Use {@link RetryBuilders#fixedTriesExponentialBackoff(int, double, long)} instead
    */
+  @Deprecated
   public static <V> Callable<RetryResult<V, NumTriesAndExceptionTracker>> fixedTriesExponentialBackoff(Callable<V> c, int maxTries, double delayFactor, long initialDelayInMillis) {
     return fixedTriesExponentialBackoff(c, maxTries, delayFactor, initialDelayInMillis, Collections.<Class<? extends Exception>>singletonList(Exception.class));
   }
