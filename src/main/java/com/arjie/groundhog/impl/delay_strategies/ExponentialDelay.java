@@ -1,7 +1,7 @@
-package com.arjie.groundhog.impl;
+package com.arjie.groundhog.impl.delay_strategies;
 
 import com.arjie.groundhog.DelayStrategy;
-import com.arjie.groundhog.TryState;
+import com.arjie.groundhog.impl.NumTries;
 
 /**
  * Delay each execution by {@link #factor} times the previous delay, starting with {@link #initial}.
@@ -9,16 +9,16 @@ import com.arjie.groundhog.TryState;
  *
  * @param <S> The type of state, which must have some way to obtain the number of tries.
  */
-public class ExponentialDelayStrategy<S extends NumTriesState & TryState> implements DelayStrategy<S> {
+public class ExponentialDelay<S extends NumTries> implements DelayStrategy<S> {
 
   private final double factor;
   private final long initial;
 
-  public ExponentialDelayStrategy(double factor) {
+  public ExponentialDelay(double factor) {
     this(factor, 1L);
   }
 
-  public ExponentialDelayStrategy(double factor, long initial) {
+  public ExponentialDelay(double factor, long initial) {
     this.factor = factor;
     this.initial = initial;
   }

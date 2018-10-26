@@ -1,13 +1,13 @@
-package com.arjie.groundhog.impl;
+package com.arjie.groundhog.impl.delay_strategies;
 
 import com.arjie.groundhog.DelayStrategy;
 import com.arjie.groundhog.TryState;
 
-public class FixedDelayStrategy<S extends TryState> implements DelayStrategy<S> {
+public class FixedDelay<S extends TryState> implements DelayStrategy<S> {
 
   private final long millisToDelay;
 
-  public FixedDelayStrategy(long millisToDelay) {
+  public FixedDelay(long millisToDelay) {
     this.millisToDelay = millisToDelay;
   }
 

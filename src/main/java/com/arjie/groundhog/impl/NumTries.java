@@ -5,12 +5,12 @@ import com.arjie.groundhog.TryState;
 /**
  * Tracks the number of tries made and the most recent exception thrown.
  */
-public class NumTriesAndExceptionTracker implements TryState, NumTriesState {
+public class NumTries implements TryState {
 
   private long numTries;
   private Exception lastException = null;
 
-  public NumTriesAndExceptionTracker() {
+  public NumTries() {
     numTries = 0;
   }
 
@@ -32,10 +32,10 @@ public class NumTriesAndExceptionTracker implements TryState, NumTriesState {
     return lastException;
   }
 
-  public static class Factory implements TryState.Factory<NumTriesAndExceptionTracker> {
+  public static class Factory implements TryState.Factory<NumTries> {
     @Override
-    public NumTriesAndExceptionTracker constructInitialState() {
-      return new NumTriesAndExceptionTracker();
+    public NumTries constructInitialState() {
+      return new NumTries();
     }
   }
 }

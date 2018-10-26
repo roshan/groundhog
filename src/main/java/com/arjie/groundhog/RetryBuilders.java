@@ -1,20 +1,19 @@
 package com.arjie.groundhog;
 
-import java.util.Collections;
 import java.util.concurrent.Callable;
 
-import com.arjie.groundhog.impl.ExponentialDelayStrategy;
-import com.arjie.groundhog.impl.FixedDelayStrategy;
-import com.arjie.groundhog.impl.MaxTriesKnownExceptionTryStrategy;
-import com.arjie.groundhog.impl.NumTriesAndExceptionTracker;
+import com.arjie.groundhog.impl.delay_strategies.ExponentialDelay;
+import com.arjie.groundhog.impl.delay_strategies.FixedDelay;
+import com.arjie.groundhog.impl.try_strategies.MaxTries;
+import com.arjie.groundhog.impl.NumTries;
 
 public class RetryBuilders {
 
   /**
    * @return A retrier that retries forever with a fixed delay
    */
-  public static RetryBuilder<NumTriesAndExceptionTracker> basic() {
-    return new RetryBuilder<>(new NumTriesAndExceptionTracker.Factory());
+  public static RetryBuilder<NumTries> basic() {
+    return new RetryBuilder<>(new NumTries.Factory());
   }
 
   /**
@@ -27,10 +26,10 @@ public class RetryBuilders {
    *
    * @return A {@link RetryBuilder} that works as described above.
    */
-  public static RetryBuilder<NumTriesAndExceptionTracker> fixedTriesFixedDelay(int maxTries, long waitMillisBetweenTries) {
+  public static RetryBuilder<NumTries> fixedTriesFixedDelay(int maxTries, long waitMillisBetweenTries) {
     return basic()
-        .withTryStrategy(new MaxTriesKnownExceptionTryStrategy<>(maxTries, Collections.<Class<? extends Exception>>singletonList(Exception.class)))
-        .withDelayStrategy(new FixedDelayStrategy<>(waitMillisBetweenTries));
+        .withTryStrategy(new MaxTries.Builder<>().setMaxTries(maxTries).build())
+        .withDelayStrategy(new FixedDelay<>(waitMillisBetweenTries));
   }
 
   /**
@@ -44,10 +43,10 @@ public class RetryBuilders {
    *
    * @return A {@link Callable} that works as described above.
    */
-  public static RetryBuilder<NumTriesAndExceptionTracker> fixedTriesExponentialBackoff(int maxTries, double delayFactor, long initialDelayInMillis) {
+  public static RetryBuilder<NumTries> fixedTriesExponentialBackoff(int maxTries, double delayFactor, long initialDelayInMillis) {
     return basic()
-        .withTryStrategy(new MaxTriesKnownExceptionTryStrategy<>(maxTries))
-        .withDelayStrategy(new ExponentialDelayStrategy<NumTriesAndExceptionTracker>(delayFactor, initialDelayInMillis));
+        .withTryStrategy(new MaxTries.Builder<>().setMaxTries(maxTries).build())
+        .withDelayStrategy(new ExponentialDelay<>(delayFactor, initialDelayInMillis));
   }
 
 }

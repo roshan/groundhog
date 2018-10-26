@@ -47,8 +47,8 @@ public class FixedTriesFixedDelayRetrierTest {
 
     FixedTriesFixedDelayRetrier<Long> retrier = new FixedTriesFixedDelayRetrier<>(c, 4, 0, Collections.<Class<? extends Exception>>singleton(Exception.class));
 
-    RetryResult<Long, NumTriesAndExceptionTracker> result = retrier.call();
-    NumTriesAndExceptionTracker terminalState = result.getTerminalState();
+    RetryResult<Long, NumTries> result = retrier.call();
+    NumTries terminalState = result.getTerminalState();
 
     assertEquals(4, terminalState.getNumTries()); // 3 throws + 1 return
     assertEquals(Exception.class, terminalState.getLastException().getClass());
@@ -63,7 +63,7 @@ public class FixedTriesFixedDelayRetrierTest {
 
     FixedTriesFixedDelayRetrier<Long> retrier = new FixedTriesFixedDelayRetrier<>(c, 10, 0, Collections.<Class<? extends Exception>>singleton(Exception.class));
 
-    RetryResult<Long, NumTriesAndExceptionTracker> result = retrier.call();
+    RetryResult<Long, NumTries> result = retrier.call();
 
     assertEquals(1, result.getTerminalState().getNumTries());
     assertEquals(ret, result.getReturnValue().longValue());
@@ -77,7 +77,7 @@ public class FixedTriesFixedDelayRetrierTest {
 
     FixedTriesFixedDelayRetrier<Long> retrier = new FixedTriesFixedDelayRetrier<>(c, 2, 0, Collections.<Class<? extends Exception>>singleton(Exception.class));
 
-    RetryResult<Long, NumTriesAndExceptionTracker> result = retrier.call();
+    RetryResult<Long, NumTries> result = retrier.call();
 
     assertEquals(2, result.getTerminalState().getNumTries());
     assertEquals(ret, result.getReturnValue().longValue());
@@ -108,7 +108,7 @@ public class FixedTriesFixedDelayRetrierTest {
 
     FixedTriesFixedDelayRetrier<Long> retrier = new FixedTriesFixedDelayRetrier<>(c, 2, 0, Collections.<Class<? extends Exception>>singleton(RuntimeException.class));
 
-    RetryResult<Long, NumTriesAndExceptionTracker> result = retrier.call();
+    RetryResult<Long, NumTries> result = retrier.call();
 
     assertEquals(2, result.getTerminalState().getNumTries());
     assertEquals(ret, result.getReturnValue().longValue());

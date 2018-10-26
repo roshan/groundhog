@@ -1,6 +1,6 @@
 package com.arjie.groundhog;
 
-import com.arjie.groundhog.impl.NumTriesAndExceptionTracker;
+import com.arjie.groundhog.impl.NumTries;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -23,9 +23,9 @@ public class RetrierTest {
     Callable mockCallable = mock(Callable.class);
     when(mockCallable.call()).thenReturn(retVal);
 
-    Retrier<Long, NumTriesAndExceptionTracker> retrier = new Retrier<>(mockCallable, mockTryStrategy, mock(DelayStrategy.class), new NumTriesAndExceptionTracker.Factory());
+    Retrier<Long, NumTries> retrier = new Retrier<>(mockCallable, mockTryStrategy, mock(DelayStrategy.class), new NumTries.Factory());
 
-    RetryResult<Long, NumTriesAndExceptionTracker> result = retrier.call();
+    RetryResult<Long, NumTries> result = retrier.call();
     assertEquals(result.getReturnValue().longValue(), retVal);
 
     Mockito.verify(mockCallable, Mockito.times(1)).call();
