@@ -16,11 +16,11 @@ Simple retry mechanism for Java Callables.
 
 Add the JAR to your classpath and then use with 
 
-    RetryBuilders.fixedTriesFixedDelay(maxTries, waitMillisBetweenTries).buildAnnotatedFor(callable);
-
-or
-
-    RetryBuilders.basic()
-        .withTryStrategy(new MaxTriesKnownExceptionTryStrategy<>(maxTries, Collections.<Class<? extends Exception>>singletonList(Exception.class))
-        .withDelayStrategy(new FixedDelayStrategy<>(waitMillisBetweenTries))
-	.buildAnnotatedFor(callable);
+```
+RetryBuilders.basic()
+    .withTryStrategy(new MaxTries.Builder<>()
+      .setMaxTries(maxTries)
+      .addExceptionToRetryOn(IOException.class)
+      .build())
+    .withDelayStrategy(new FixedDelay<>(waitMillisBetweenTries));
+```
