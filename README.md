@@ -24,3 +24,15 @@ RetryBuilders.basic()
       .build())
     .withDelayStrategy(new FixedDelay<>(waitMillisBetweenTries));
 ```
+
+or with the two convenience constructors:
+
+```
+RetryBuilders.fixedTriesFixedDelay(maxTries, waitMillisBetweenTries).build(callable)
+```
+
+```
+RetryBuilders.fixedTriesExponentialBackoff(maxTries, delayFactor, initialDelayInMillis).build(callable);
+```
+
+Use `RetryBuilder#annotate` instead of `RetryBuilder#build` to get the final state as well as the finally returned value.
