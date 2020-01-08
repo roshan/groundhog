@@ -1,5 +1,6 @@
 package com.arjie.groundhog;
 
+import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 import com.arjie.groundhog.impl.delay_strategies.ExponentialDelay;
@@ -18,7 +19,7 @@ public class RetryBuilders {
 
   /**
    * Create a retrier that will retry a given {@link Callable} up to a fixed maximum number of times,
-   * waiting a fixed time in between, and catching only some {@link Exception}s.
+   * waiting a fixed time in between, and catching all {@link Exception}s.
    * A re-attempt will be made only if the previous attempt failed.
    *
    * @param maxTries The maximum number of attempts to make.
@@ -28,13 +29,13 @@ public class RetryBuilders {
    */
   public static RetryBuilder<NumTries> fixedTriesFixedDelay(int maxTries, long waitMillisBetweenTries) {
     return basic()
-        .withTryStrategy(new MaxTries.Builder<>().setMaxTries(maxTries).build())
+        .withTryStrategy(new MaxTries.Builder<>().setMaxTries(maxTries).retryAll())
         .withDelayStrategy(new FixedDelay<>(waitMillisBetweenTries));
   }
 
   /**
    * Create a retrier that will retry given {@link Callable} up to a fixed maximum number of times,
-   * exponentially backing off, and catching only some {@link Exception}s.
+   * exponentially backing off, and catching all {@link Exception}s.
    * A re-attempt will be made only if the previous attempt failed.
    *
    * @param maxTries The maximum number of attempts to make.
@@ -45,7 +46,7 @@ public class RetryBuilders {
    */
   public static RetryBuilder<NumTries> fixedTriesExponentialBackoff(int maxTries, double delayFactor, long initialDelayInMillis) {
     return basic()
-        .withTryStrategy(new MaxTries.Builder<>().setMaxTries(maxTries).build())
+        .withTryStrategy(new MaxTries.Builder<>().setMaxTries(maxTries).retryAll())
         .withDelayStrategy(new ExponentialDelay<>(delayFactor, initialDelayInMillis));
   }
 

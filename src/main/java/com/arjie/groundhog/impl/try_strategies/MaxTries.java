@@ -2,6 +2,7 @@ package com.arjie.groundhog.impl.try_strategies;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 import com.arjie.groundhog.TryStrategy;
 import com.arjie.groundhog.impl.NumTries;
@@ -9,11 +10,16 @@ import com.arjie.groundhog.impl.NumTries;
 public class MaxTries<S extends NumTries> implements TryStrategy<S> {
 
   private final long maxTries;
-  private final Collection<Class<? extends Exception>> exceptionsToRetry;
+  private Predicate<Exception> canRetry;
+
 
   public MaxTries(long maxTries, Collection<Class<? extends Exception>> exceptionsToRetry) {
+    this(maxTries, exception -> isExceptionCatchable(exceptionsToRetry, exception));
+  }
+
+  public MaxTries(long maxTries, Predicate<Exception> canRetry) {
     this.maxTries = maxTries;
-    this.exceptionsToRetry = exceptionsToRetry;
+    this.canRetry = canRetry;
   }
 
   @Override
@@ -23,18 +29,16 @@ public class MaxTries<S extends NumTries> implements TryStrategy<S> {
       return false;
     }
 
-    Exception exception = state.getLastException();
-    return (exception == null) || (isExceptionCatchable(exception));
-
+    return canRetry.test(state.getLastException());
   }
 
-  private boolean isExceptionCatchable(Exception exception) {
+  private static boolean isExceptionCatchable(Collection<Class<? extends Exception>> exceptionsToRetry, Exception exception) {
     for (Class<? extends Exception> x : exceptionsToRetry) {
       if (x.isAssignableFrom(exception.getClass())) {
         return true;
       }
     }
-    return false;
+    return exceptionsToRetry.isEmpty();
   }
 
   public static class Builder<T extends NumTries> {
@@ -59,6 +63,10 @@ public class MaxTries<S extends NumTries> implements TryStrategy<S> {
     public Builder<T> addExceptionToRetryOn(Class<? extends Exception> exception) {
       this.exceptionsToRetry.add(exception);
       return this;
+    }
+
+    public MaxTries<T> retryAll() {
+      return new MaxTries<T>(maxTries, exception -> true);
     }
 
     public MaxTries<T> build() {
