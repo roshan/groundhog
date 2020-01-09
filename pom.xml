@@ -4,7 +4,7 @@
   <groupId>com.arjie.groundhog</groupId>
   <artifactId>groundhog</artifactId>
   <packaging>jar</packaging>
-  <version>0.8.0</version>
+  <version>0.9.0</version>
 
   <name>Groundhog</name>
   <description>A simple retry mechanism for Java Callables</description>
@@ -134,6 +134,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.10.3</version>
+        <configuration>
+          <source>8</source>
+        </configuration>
         <executions>
           <execution>
             <id>attach-javadocs</id>
