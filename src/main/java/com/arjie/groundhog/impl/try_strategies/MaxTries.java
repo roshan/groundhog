@@ -29,7 +29,8 @@ public class MaxTries<S extends NumTries> implements TryStrategy<S> {
       return false;
     }
 
-    return canRetry.test(state.getLastException());
+    Exception lastException = state.getLastException();
+    return lastException == null || canRetry.test(lastException);
   }
 
   private static boolean isExceptionCatchable(Collection<Class<? extends Exception>> exceptionsToRetry, Exception exception) {
